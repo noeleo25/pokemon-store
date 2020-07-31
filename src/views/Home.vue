@@ -29,7 +29,8 @@
                       </span>
                     </p>
                   </div>
-                  <b-img :src="poke.img" fluid></b-img>
+                  <b-img :src="poke.img" fluid :alt="'Pokemon: '+ poke.name">
+                  </b-img>
                   <div class="">
                     <p class="pokemon-hability">
                       <b>{{ poke.hability.name }}:</b>
@@ -37,7 +38,13 @@
                     </p>
                   </div>
                 </div>
-                <div class="card-backdrop"></div>
+                <div class="card-backdrop" @click="addToCart(poke)">
+                  <b-img 
+                    fluid
+                    :src="'./images/Pokeball.svg'"
+                    alt="backdrop-addtoCart">
+                  </b-img>
+                </div>
               </b-card>
             </b-col>
           </b-row>
@@ -67,9 +74,18 @@ export default {
             name: 'Llama firme',
             description: 'Los ataques de este Pokemon hacen 30 puntos de dano mas al Pokemon activo de tu rival'
           },
-          img: './images/charizard.png'
+          img: './images/charizard.png',
+          prices:{
+            mxn: 500.00,
+            usd: 25.00
+          }
         }
       ]  
+    }
+  },
+  methods: {
+    addToCart(item){
+      console.log(item);
     }
   },
 };
@@ -159,6 +175,7 @@ export default {
   z-index: 2;
   left: 0;
   top:0;
+  cursor: pointer;
 }
 .pokemon-card:hover .card-backdrop{
   opacity: 1;

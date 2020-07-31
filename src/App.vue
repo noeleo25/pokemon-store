@@ -21,7 +21,8 @@ export default {
   --dark-red: #CC0000;
   --blue: #0060ac;
   --purple: #3B4CCA;
-  --dark-purple: #363b81;
+  --dark-purple: rgb(54, 59, 129);
+  --orange: #FE4B00;
 
 }
 #app {
@@ -64,6 +65,17 @@ export default {
   margin-left: -12px;
 }
 
-
+/*** ***/
+.main-btn{
+  border-radius: 10px;
+  background: var(--yellow);
+  padding: 8px 12px;
+  color: #000;
+  font-size: 0.8rem;
+  
+}
+.main-btn:hover{
+  text-decoration: none;
+}
 
 </style>

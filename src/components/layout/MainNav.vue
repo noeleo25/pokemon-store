@@ -24,6 +24,10 @@
           
           <b-nav-item class="ml-md-2" to="/"> Home </b-nav-item>
           <b-nav-item class="ml-md-2" to="/about"> About </b-nav-item>
+
+          <div class="ml-md-3">
+            <CartDropdown/>
+          </div>
         </b-navbar-nav>
       </b-collapse>
     </b-container>
@@ -31,8 +35,9 @@
 </template>
 
 <script>
+  import CartDropdown from '@/components/CartDropdown.vue'
   export default {
-    
+    components: { CartDropdown }
   }
 </script>
 

@@ -1,0 +1,268 @@
+<template>
+  <CustomDropdown 
+    :mainClass="'d-flex align-items-center'" 
+    :buttonClass="'cart-btn px-0'">
+    <template v-slot:button-content>
+      <IconBase
+        :iconName="'cart'"
+        :width="24"
+        :height="24"
+        >
+        <ShoppingCartIcon/>
+      </IconBase>
+      <b-badge class="cart-badge" v-if="totalCartItems > 0">
+        {{ totalCartItems }}
+      </b-badge>
+    </template>
+    <template v-slot:dropdown-content>
+      <div class="dropdown-cart-content">
+        <div
+          v-for="item in cartItems" 
+          :key="item.id"
+          class="">     
+          <div
+            class="dropdown-cart-item d-flex align-items-center">
+            <img class="cart-content-img" :src="item.img" />
+            <div class="cart-content-text ml-2 w-100">
+              <div
+                class="title mb-0 d-block">
+                {{ item.name }} 
+              </div>
+              <div class="d-flex justify-content-between">
+                <p class="subtitle mb-1"> 
+                  Habilidad: {{ item.hability.name }} 
+                </p>
+              </div>
+              <div class="d-flex justify-content-between align-items-end">
+                <div class="">
+                  <p class="mb-0 prices"> 
+                    <span class="total-price"> 
+                      ${{ totalPrice(item.id) }} 
+                      {{ getCurrency.content }}
+                    </span>
+                  </p>
+                </div>
+                <button 
+                  class="link trash-btn onhover"
+                  @click="itemToTrash(item.id)">
+                  <IconBase
+                    class="trash-icon"
+                    icon-name="trash"
+                    
+                    width="22"
+                    height="22">
+                    <TrashIcon />
+                  </IconBase>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <hr role="separator" aria-orientation="horizontal" class="dropdown-divider">
+        </div>
+        <div class="cart-options">
+          <template v-if="totalCartItems > 0">
+            <p class="text-right"> 
+              <span class="total-price"> 
+                ${{ total }}
+                {{ getCurrency.content }}
+              </span>
+            </p>
+            <div class="d-flex justify-content-between align-items-end">
+              <button
+                class="delete-cart link error-message" 
+                @click="deleteAll()">
+                Vaciar carrito
+              </button>
+              <router-link
+                class="main-btn"
+                :to="{ name:'cart' }">
+                Proceder al pago
+              </router-link>
+            </div>
+          </template>
+          <template v-else>
+            <b-alert 
+              class="mb-0"
+              variant="warning"
+              show>
+              <p class="text-center mb-0"> 
+                Captura Pokemones en tu carrito :) 
+              </p>
+            </b-alert>
+          </template>
+        </div>
+      </div>
+    </template>
+  </CustomDropdown>
+</template>
+
+<script>
+  import CustomDropdown from '@/components/CustomDropdown.vue';
+  import TrashIcon from '@/components/icon/TrashIcon.vue';
+  import ShoppingCartIcon from '@/components/icon/ShoppingCartIcon.vue'
+  export default {
+    name: "CartDropdown",
+    components: {
+      ShoppingCartIcon,
+      CustomDropdown,
+      TrashIcon
+    },
+    data() {
+      return {
+        //total: 0.00,
+      }
+    },
+    
+    computed: {
+      cartItems(){
+        return [
+          {
+            id: 1,
+            name: 'Charizard',
+            type: 'fire', //fire
+            color: 'red',
+            hability: {
+              name: 'Llama firme',
+              description: 'Los ataques de este Pokemon hacen 30 puntos de dano mas al Pokemon activo de tu rival'
+            },
+            img: './images/charizard.png',
+            prices:{
+              mxn: 500.00,
+              usd: 25.00
+            },
+          },
+          {
+            id: 2,
+            name: 'Charizard',
+            type: 'fire', //fire
+            color: 'red',
+            hability: {
+              name: 'Llama firme',
+              description: 'Los ataques de este Pokemon hacen 30 puntos de dano mas al Pokemon activo de tu rival'
+            },
+            img: './images/charizard.png',
+            prices:{
+              mxn: 500.00,
+              usd: 25.00
+            },
+          }
+        ];
+        //return this.$store.state.shoppingCart.cartItems;  
+      },
+      totalCartItems(){
+        return this.cartItems.length;
+        //return this.$store.getters['shoppingCart/totalCartItems'];
+      },
+      getCurrency(){
+        return { 
+          id: 'MXN',
+          selected: true,
+          content: 'MXN',
+        };
+        //return this.$store.getters.currencySelected;
+      },
+      total(){
+        return 0.00;
+        /*const currency = this.getCurrency;
+        return this.$store.getters['shoppingCart/totals'](currency.id);*/
+      }
+    },
+    methods: { //no agregar metodos hasta que se tenga el store
+      itemToTrash(id){
+        this.$store.dispatch('shoppingCart/removeItemById', id);
+      },
+      deleteAll(){
+         this.$store.dispatch('shoppingCart/deleteAllItems');
+      },
+      totalPrice(id){
+        console.log(id);
+        return 0.0;
+        /*
+        const course = this.cartItems.find(item => item.courseId == id);
+        const price = course.price.mxPrice; //TODO Get price by currency
+        return price;*/
+      },
+    },
+  }
+</script>
+
+<style>
+.trash-btn.onhover{
+  opacity: 0;
+}
+.dropdown-cart-content{
+  width: 350px;
+  padding: 0px;
+}
+.dropdown-cart-item{
+  padding: 10px 12px;
+  color: #fff;
+  max-height: 120px;
+}
+.dropdown-cart-item .title {
+  color: inherit;
+  text-align: left;
+  display: block!important;
+  display: -webkit-box!important;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: 48px;
+  max-width: 100%;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  white-space: normal;
+  font-size: 1.2rem;
+}
+.dropdown-cart-item:hover .title{
+  text-decoration: none;
+  color: inherit;
+}
+.dropdown-cart-item:hover .trash-btn{
+  opacity: 1;
+ 
+}
+.cart-content-img{
+  max-width: 100px;
+}
+.cart-content-text .title{
+  font-weight: bold;
+}
+.dropdown-divider{
+  border-top: 2px solid var(--form-gray) !important;
+  margin: 0 !important;
+}
+.cart-options{
+  padding: 16px 12px 4px 12px;
+  color: #fff;
+}
+.delete-cart.link,
+.trash-btn.link{
+  color: inherit;
+  font-weight: bold;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: normal;
+  color: var(--orange);
+}
+
+.delete-cart.link:hover{
+  font-weight: bold;
+}
+.delete-cart.link:focus,
+.delete-cart.link:active{
+  outline: none;
+}
+
+.subtotal-price{
+  text-decoration: line-through;
+}
+.prices{
+  font-size: 15px;
+}
+.total-price{
+  font-weight: bold;
+}
+</style>
