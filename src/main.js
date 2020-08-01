@@ -2,7 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm';
+import BootstrapVue from 'bootstrap-vue';
 
 Vue.config.productionTip = false;
 
@@ -11,9 +11,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 import IconBase from '@/components/icon/IconBase.vue'
 Vue.component('IconBase', IconBase)
-
 Vue.use(BootstrapVue);
-
 
 Vue.directive('click-outside',{
   bind: function (el, binding, vnode) {

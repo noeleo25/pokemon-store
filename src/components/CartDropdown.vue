@@ -30,7 +30,7 @@
               </div>
               <div class="d-flex justify-content-between">
                 <p class="subtitle mb-1"> 
-                  Habilidad: {{ item.hability.name }} 
+                  Habilidad: {{ item.ability.name }}
                 </p>
               </div>
               <div class="d-flex justify-content-between align-items-end">
@@ -63,8 +63,12 @@
         <div class="cart-options">
           <template v-if="totalCartItems > 0">
             <p class="text-right"> 
+              <span class="subtotal-price"> 
+                ${{ total.subtotal }}
+                {{ getCurrency.content }}
+              </span>
               <span class="total-price"> 
-                ${{ total }}
+                ${{ total.total }}
                 {{ getCurrency.content }}
               </span>
             </p>
@@ -101,6 +105,7 @@
   import CustomDropdown from '@/components/CustomDropdown.vue';
   import TrashIcon from '@/components/icon/TrashIcon.vue';
   import ShoppingCartIcon from '@/components/icon/ShoppingCartIcon.vue'
+  import { mapState } from 'vuex'
   export default {
     name: "CartDropdown",
     components: {
@@ -115,41 +120,19 @@
     },
     
     computed: {
-      cartItems(){
-        return [
-          {
-            id: 1,
-            name: 'Charizard',
-            type: 'fire', //fire
-            color: 'red',
-            hability: {
-              name: 'Llama firme',
-              description: 'Los ataques de este Pokemon hacen 30 puntos de dano mas al Pokemon activo de tu rival'
-            },
-            img: './images/charizard.png',
-            prices:{
-              mxn: 500.00,
-              usd: 25.00
-            },
-          },
-          {
-            id: 2,
-            name: 'Charizard',
-            type: 'fire', //fire
-            color: 'red',
-            hability: {
-              name: 'Llama firme',
-              description: 'Los ataques de este Pokemon hacen 30 puntos de dano mas al Pokemon activo de tu rival'
-            },
-            img: './images/charizard.png',
-            prices:{
-              mxn: 500.00,
-              usd: 25.00
-            },
-          }
-        ];
+      //cartItems(){
+       
+        //return this.$store.state.cartItems;
+        
         //return this.$store.state.shoppingCart.cartItems;  
-      },
+      //},
+      /* TEMA: state */
+      ...mapState({
+        /*cartItems: state => state.cartItems,
+        status: state => state.cartStatus*/
+        cartItems : 'cartItems',
+        status: 'status'
+      }),
       totalCartItems(){
         return this.cartItems.length;
         //return this.$store.getters['shoppingCart/totalCartItems'];
@@ -163,14 +146,15 @@
         //return this.$store.getters.currencySelected;
       },
       total(){
-        return 0.00;
+        //return 0.00;
+        return this.$store.getters['totals'];
         /*const currency = this.getCurrency;
         return this.$store.getters['shoppingCart/totals'](currency.id);*/
       }
     },
     methods: { //no agregar metodos hasta que se tenga el store
       itemToTrash(id){
-        this.$store.dispatch('shoppingCart/removeItemById', id);
+        this.$store.dispatch('deleteItem', id);
       },
       deleteAll(){
          this.$store.dispatch('shoppingCart/deleteAllItems');
@@ -257,7 +241,7 @@
 }
 
 .subtotal-price{
-  text-decoration: line-through;
+  font-size: 14px;
 }
 .prices{
   font-size: 15px;

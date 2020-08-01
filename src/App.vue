@@ -48,14 +48,6 @@ export default {
   unicode-range: U+000-5FF; 
   font-display: swap;
 }
-.pokemon-font{
-  font-family: "PokemonH", Arial;
-}
-.pokemon-solid-font{
-  font-family:  "Pokemon Solid", Arial;
-}
-
-
 .pokemon-logo{
   margin-bottom: 0;
   font-size: 1.5em;
@@ -65,14 +57,19 @@ export default {
   margin-left: -12px;
 }
 
-/*** ***/
+/*** General ***/
+.pokemon-font{
+  font-family: "PokemonH", Arial;
+}
+.pokemon-solid-font{
+  font-family:  "Pokemon Solid", Arial;
+}
 .main-btn{
   border-radius: 10px;
   background: var(--yellow);
   padding: 8px 12px;
   color: #000;
   font-size: 0.8rem;
-  
 }
 .main-btn:hover{
   text-decoration: none;

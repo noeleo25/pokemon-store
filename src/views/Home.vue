@@ -3,7 +3,10 @@
     <h1 class="main-title pokemon-solid-font">
       Bienvenido a la tienda
       <br>
-      <strong class="pokemon-font pokemon-word">
+      <strong 
+        :class="['pokemon-word', pokemonWordCs] "
+        @mouseover="pokemonWordCs = 'pokemon-solid-font'"
+        @mouseleave="pokemonWordCs = 'pokemon-font'">
         PoKéMoN
       </strong>
     </h1>
@@ -12,35 +15,62 @@
       <b-container>
         <section id="best-sellers" class="mb-5">
           <div class="section-title mb-4">
-            <h2 class="mb-0 pokemon-solid-font"> Lo mas vendido </h2>
+            <h2 class="mb-0 pokemon-solid-font">
+              Favoritos
+            </h2>
           </div>
           <b-row>
             <b-col 
-              cols="4" 
+              cols="12"
+              sm="6"
+              md="4" 
+              class="d-flex justify-content-center mb-4"
               v-for="poke in pokemons"
               :key="poke.id">
               <b-card class="pokemon-card">
-                <div class="card-content red">
+                <div :class="['card-content',
+                               poke.color]">
                   <div class="pokemon-name">
                     <p class="mb-0 d-flex align-items-center justify-content-between">
                       {{ poke.name }}
-                      <span>
-                        {{ poke.type }}
+                      <span class="pokemon-type">
+                        <IconBase
+                          class="trash-icon"
+                          icon-name="trash"
+                          
+                          width="22"
+                          height="22">
+                          <component :is="poke.type+'Icon'">
+                          </component>
+                        </IconBase>
                       </span>
                     </p>
                   </div>
                   <b-img :src="poke.img" fluid :alt="'Pokemon: '+ poke.name">
                   </b-img>
-                  <div class="">
-                    <p class="pokemon-hability">
-                      <b>{{ poke.hability.name }}:</b>
-                      <span> {{ poke.hability.description }} </span>
+                  <div class="mt-2">
+                    <p class="pokemon-ability text-justify">
+                      <b>{{ poke.ability.name }}:</b>
+                      <span> {{ poke.ability.description }} </span>
                     </p>
                   </div>
+                  <div class="mt-2 d-flex justify-content-between">
+                    <div class="pokemon-price">
+                      $ <b>{{poke.prices.mxn}}</b> <small>MXN</small>
+                    </div>
+                    <div class="pokemon-rating">
+                      <RatingComponent 
+                        :rating="poke.rate"
+                        :showNumber="false"
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div class="card-backdrop" @click="addToCart(poke)">
+                <div 
+                  class="card-backdrop d-flex align-items-center justify-content-center" 
+                  @click="addToCart(poke)">
                   <b-img 
-                    fluid
+                    class="pokeball-img"
                     :src="'./images/Pokeball.svg'"
                     alt="backdrop-addtoCart">
                   </b-img>
@@ -56,38 +86,42 @@
 
 <script>
 // @ is an alias to /src
-
-
+import RatingComponent from '@/components/RatingComponent.vue';
+import FireIcon from '@/components/icon/FireIcon.vue';
+import WaterIcon from '@/components/icon/WaterIcon.vue';
+import ElectricIcon from '@/components/icon/ElectricIcon.vue';
+import GrassIcon from '@/components/icon/GrassIcon.vue';
+import FairyIcon from '@/components/icon/FairyIcon.vue';
+import PsychicIcon from '@/components/icon/PsychicIcon.vue';
 export default {
   name: "Home",
   components: {
+    RatingComponent,
+    FireIcon,
+    WaterIcon,
+    ElectricIcon,
+    GrassIcon,
+    FairyIcon,
+    PsychicIcon
   },
   data() {
     return {
-      pokemons: [
-        {
-          id: 1,
-          name: 'Charizard',
-          type: 'fire', //fire
-          color: 'red',
-          hability: {
-            name: 'Llama firme',
-            description: 'Los ataques de este Pokemon hacen 30 puntos de dano mas al Pokemon activo de tu rival'
-          },
-          img: './images/charizard.png',
-          prices:{
-            mxn: 500.00,
-            usd: 25.00
-          }
-        }
-      ]  
+      pokemonWordCs: 'pokemon-font',
     }
   },
   methods: {
     addToCart(item){
-      console.log(item);
+      //console.log(item);
+      return this.$store.dispatch('addItem', item);
     }
   },
+  computed:{
+    pokemons(){
+      return this.$store.state.productList;
+      //return this.$store.getters['bestItems'];
+      //return this.$store.getters['getItemsByRate'](3);
+    },
+  }
 };
 </script>
 
@@ -100,6 +134,14 @@ export default {
 .pokemon-word{
   font-size: 1.5em;
   color: var(--yellow);
+  /*background: linear-gradient(90deg, red, orange, yellow, green, blue, purple);*/
+  background: var(--yellow);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+.pokemon-word:hover {
+  color: transparent;
+  transition: 500ms ease;
 }
 .section-title{
   color: var(--dark-red);
@@ -110,41 +152,6 @@ export default {
   text-align: left;
   line-height: 2.2;
 }
-/*
-.section-title{
-  text-align: left;
-  background-color: #000;
-  color: #fff;
-  position: relative;
-}
-.section-title > h2{
-  font-size: 1.8rem;
-  padding: 4px 16px;
-}
-.section-title::before{
-  content: '';
-  position: absolute;
-  top: -9px;
-  left:0;
-  width: 100%;
-  height: 9px;
-  background: var(--dark-red);
-  border-top: 1px solid #000;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
-}
-.section-title::after{
-  content: '';
-  position: absolute;
-  bottom: -9px;
-  left:0;
-  width: 100%;
-  height: 9px;
-  background: #fff;
-  border-bottom: 1px solid #000;
-   border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-}*/
 .pokemon-name{
   text-align: left;
   font-size: 20px;
@@ -153,25 +160,44 @@ export default {
 .pokemon-card{
   background: beige;
   position: relative;
+  height: 100%;
+  max-width: 280px;
 }
-
 .pokemon-card .card-content{
   padding: 0.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .pokemon-card .card-content.red{
   background: sandybrown;
 }
+.pokemon-card .card-content.blue{
+  background: rgb(96, 209, 244);
+}
+.pokemon-card .card-content.yellow{
+  background: rgb(244, 222, 96);
+}
+.pokemon-card .card-content.purple{
+  background: rgb(156, 118, 245);
+}
+.pokemon-card .card-content.green{
+  background: rgb(96, 244, 170);
+}
+.pokemon-card .card-content.pink{
+  background: rgb(241, 99, 206);
+}
 .pokemon-card .card-body{
   padding: .7rem;
 }
-
 .pokemon-card .card-backdrop{
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: rgba(128, 67, 67, 0.5);
+  background-color: rgba(63, 59, 59, 0.5);
   opacity: 0;
-  transition: opacity 0.15s ease-in;
+  transition: opacity 0.4s ease-in;
   z-index: 2;
   left: 0;
   top:0;
@@ -180,6 +206,20 @@ export default {
 .pokemon-card:hover .card-backdrop{
   opacity: 1;
 }
-
-
+.pokemon-card .pokemon-ability{
+  font-size: 0.8em;
+}
+.pokemon-card .pokemon-type{
+  border: 1px solid;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pokeball-img{
+  max-width: 100%;
+  max-height: 100%;
+}
 </style>
