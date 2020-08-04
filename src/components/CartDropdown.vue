@@ -37,7 +37,7 @@
                 <div class="">
                   <p class="mb-0 prices"> 
                     <span class="total-price"> 
-                      ${{ totalPrice(item.id) }} 
+                      ${{ item.prices.mxn }} 
                       {{ getCurrency.content }}
                     </span>
                   </p>
@@ -130,8 +130,11 @@
       ...mapState({
         /*cartItems: state => state.cartItems,
         status: state => state.cartStatus*/
-        cartItems : 'cartItems',
-        status: 'status'
+        /*cartItems : 'cartItems',
+        status: 'status'*/
+
+        //accediendo a modulos
+        cartItems: state => state.shoppingCart.cartItems
       }),
       totalCartItems(){
         return this.cartItems.length;
@@ -147,25 +150,18 @@
       },
       total(){
         //return 0.00;
-        return this.$store.getters['totals'];
-        /*const currency = this.getCurrency;
-        return this.$store.getters['shoppingCart/totals'](currency.id);*/
+        //return this.$store.getters['totals'];
+        //accediendo a modulos
+        return this.$store.getters['shoppingCart/totals'];
       }
     },
     methods: { //no agregar metodos hasta que se tenga el store
       itemToTrash(id){
-        this.$store.dispatch('deleteItem', id);
+        //this.$store.dispatch('deleteItem', id);
+        this.$store.dispatch('shoppingCart/deleteItem', id);
       },
       deleteAll(){
          this.$store.dispatch('shoppingCart/deleteAllItems');
-      },
-      totalPrice(id){
-        console.log(id);
-        return 0.0;
-        /*
-        const course = this.cartItems.find(item => item.courseId == id);
-        const price = course.price.mxPrice; //TODO Get price by currency
-        return price;*/
       },
     },
   }

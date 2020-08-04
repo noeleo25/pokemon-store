@@ -112,7 +112,9 @@ export default {
   methods: {
     addToCart(item){
       //console.log(item);
-      return this.$store.dispatch('addItem', item);
+     // return this.$store.dispatch('addItem', item);
+     //accediendo a modules
+     return this.$store.dispatch('shoppingCart/addItem', item);
     }
   },
   computed:{

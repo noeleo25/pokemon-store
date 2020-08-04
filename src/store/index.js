@@ -1,9 +1,17 @@
 import Vue from "vue";
 import Vuex from "vuex";
+//Opc 1 import
+  //import ShoppingCart from '@/services/ShoppingCart.js'
+//Opc 2 import
+import * as shoppingCart from '@/store/modules/shoppingCart.js'
+
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  modules:{
+    shoppingCart
+  },
   state: {
     productList:[
       {
@@ -103,52 +111,15 @@ export default new Vuex.Store({
         rate: 3
       }
     ],
-    cartItems: [
-    ],
-    cartStatus: 0, //0 default, 1 reservado, 2 pagado
+    isLoading: false,
   },
   mutations: {
-    PUSH_ITEM(state, item) //item is payload 
-    {
-      state.cartItems.push(item);
-    },
-    DELETE_ITEM(state, itemId) //item is payload 
-    {
-      state.cartItems = state.cartItems.filter(
-        cartItem => cartItem.id !== itemId
-      )
-    },
+    
   },
   actions: {
-    addItem({ commit, state }, item) {
-      //Consultamos que no exista el item en el carrito (no duplicar)
-      const itemIndex = state.cartItems.findIndex(cartItem => cartItem.id == item.id);
-      if(itemIndex == -1){
-        commit('PUSH_ITEM', item);
-          //Aqui podriamos agregar una notificacion 'Success'
-      }else{
-        //Aqui podriamos agregar una notificacion 'Error'
-      }
-    },
-    deleteItem({ commit }, itemId) {
-      commit('DELETE_ITEM', itemId);
-      //Notificacion
-    },
+    
   },
   getters: {
-    totals: (state)  => {
-      var total = 0;
-      var subtotal = 0;
-      state.cartItems.forEach(item => {
-        let price = item.prices.mxn;
-        subtotal += price;
-        total += (price + price*.1); //10% iva
-      });
-      return {
-                subtotal: subtotal,  
-                total: total, 
-            };
-    },
     bestItems: (state)  => {
       return state.productList.filter(item => item.rate == 5);
     },
