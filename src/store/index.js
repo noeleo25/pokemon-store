@@ -4,7 +4,13 @@ import Vuex from "vuex";
   //import ShoppingCart from '@/services/ShoppingCart.js'
 //Opc 2 import
 import * as shoppingCart from '@/store/modules/shoppingCart.js'
-
+//Tips
+import createPersistedState from "vuex-persistedstate";
+const persistent = createPersistedState({
+  //paths: ['shoppingCart'] //todo el carrito persist
+  //paths: ['shoppingCart.cartStatus'] //solo cartStatus persist
+  paths: ['shoppingCart.cartItems'] //solo cartItems persist
+})
 
 Vue.use(Vuex);
 
@@ -12,6 +18,7 @@ export default new Vuex.Store({
   modules:{
     shoppingCart
   },
+  plugins: [persistent],
   state: {
     productList:[
       {

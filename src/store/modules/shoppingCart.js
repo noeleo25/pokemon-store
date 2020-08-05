@@ -26,11 +26,11 @@ export const actions = {
     if(itemIndex == -1){
       commit('PUSH_ITEM', item);
         //Aqui podriamos agregar una notificacion 'Success'
-        const notification = {
+        /*const notification = {
           type: 'success',
           message: 'Se agrego un curso al carrito',
         }
-        dispatch('notification/add', notification, { root: true });
+        dispatch('notification/add', notification, { root: true });*/
     }else{
       //Aqui podriamos agregar una notificacion 'Error'
     }
