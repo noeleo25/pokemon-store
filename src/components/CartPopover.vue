@@ -1,5 +1,5 @@
 <template>
-  <CustomDropdown 
+  <CustomPopover 
     :mainClass="'d-flex align-items-center'" 
     :buttonClass="'cart-btn px-0'">
     <template v-slot:button-content>
@@ -98,19 +98,19 @@
         </div>
       </div>
     </template>
-  </CustomDropdown>
+  </CustomPopover>
 </template>
 
 <script>
-  import CustomDropdown from '@/components/CustomDropdown.vue';
+  import CustomPopover from '@/components/CustomPopover.vue';
   import TrashIcon from '@/components/icon/TrashIcon.vue';
   import ShoppingCartIcon from '@/components/icon/ShoppingCartIcon.vue'
   import { mapState } from 'vuex'
   export default {
-    name: "CartDropdown",
+    name: "CartPopover",
     components: {
       ShoppingCartIcon,
-      CustomDropdown,
+      CustomPopover,
       TrashIcon
     },
     data() {

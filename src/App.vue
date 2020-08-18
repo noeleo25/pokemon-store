@@ -74,5 +74,20 @@ export default {
 .main-btn:hover{
   text-decoration: none;
 }
+.cart-badge{
+  border-radius: 50% !important;
+  position: absolute !important;
+  top: -8px;
+  right: -16px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--yellow) !important;
+  font-size: 80%;
+  background: rgba(255, 255, 255, 0.5) !important;
+  border: 1px solid var(--yellow);
+}
 
 </style>

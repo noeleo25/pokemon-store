@@ -7,6 +7,9 @@
     </button>
     <div :class="dropdownClass"
       v-click-outside="closeDropdown">
+      <div class="triangle-container">
+        <div class="triangle-with-shadow"></div>
+      </div>
       <slot name="dropdown-content"></slot>
     </div>
   </div>
@@ -105,7 +108,7 @@
   outline: none;
 }
 
-/*** CartDropdown ***/
+/*** CartPopover ***/
 .cart-btn{
   color: rgba(255, 255, 255, 0.5);
   background: none;
@@ -119,23 +122,34 @@
   background: none;
   box-shadow: none;
 }
-.cart-badge{
-  border-radius: 50%;
-  position: absolute !important;
-  top: -8px;
-  right: -16px;
+.cart-btn:hover .cart-badge{
+  color: var(--purple) !important;
+  background: var(--yellow) !important;
+}
+.triangle-container{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  height: 0;
+}
+.triangle-with-shadow {
+  width: 32px;
+  height: 24px;
+  position: relative;
+  top: -24px;
+  right: 0;
+  overflow: hidden;
+  z-index: 1;
+}
+.triangle-with-shadow:after {
+  content: "";
+  position: absolute;
   width: 20px;
   height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--yellow);
-  font-size: 80%;
-  background: rgba(255, 255, 255, 0.5);
-  border: 1px solid var(--yellow);
-}
-.cart-btn:hover .cart-badge{
-  color: var(--purple);
-  background: var(--yellow);
+  background-color: rgba(45, 51, 136, 0.8); 
+  transform: rotate(45deg);
+  bottom: -10px;
+  left: 6px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
 }
 </style>

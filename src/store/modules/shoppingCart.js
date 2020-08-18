@@ -54,6 +54,9 @@ export const getters = {
               total: total, 
           };
   },
+  totalCartItems: state => {
+    return state.cartItems.length;
+  },
 }
 
 
