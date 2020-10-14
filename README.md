@@ -51,7 +51,10 @@ npm install -g json-server
 ```
 json-server --watch file-name.json
 ```
-4. The endpoint to use in your axios call will be show in console when you run server.
+4. The endpoint to use in your axios call will be show in console when you run server. I.E.
+```
+ http://localhost:3000/items
+```
 
 
 
