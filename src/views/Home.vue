@@ -1,5 +1,15 @@
 <template>
   <div class="home py-4">
+     <b-alert
+      v-if="alert != null"
+      :show="alert.show"
+      :variant="alert.variant"
+    >
+    <b> {{ alert.message }} </b>
+    <button 
+      @click="closeAlert()" 
+      class="close-alert">x</button>
+    </b-alert>
     <h1 class="main-title pokemon-solid-font">
       Bienvenido a la tienda
       <br>
@@ -115,7 +125,11 @@ export default {
      // return this.$store.dispatch('addItem', item);
      //accediendo a modules
      return this.$store.dispatch('shoppingCart/addItem', item);
+    },
+    closeAlert(){
+      this.$store.dispatch('removeAlert');
     }
+
   },
   computed:{
     pokemons(){
@@ -123,6 +137,9 @@ export default {
       //return this.$store.getters['bestItems'];
       //return this.$store.getters['getItemsByRate'](3);
     },
+    alert(){
+      return this.$store.state.alert;
+    }
   }
 };
 </script>
@@ -223,5 +240,16 @@ export default {
 .pokeball-img{
   max-width: 100%;
   max-height: 100%;
+}
+.close-alert{
+  border-radius: 50%;
+  color: inherit;
+  border: none;
+  width: 20px;
+  height: 20px;
+  font-size: 10px;
+  position: absolute;
+  top: 8px;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.16);
 }
 </style>

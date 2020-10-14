@@ -20,24 +20,27 @@ export const mutations = {
   },
 }
 export const actions = { 
-  addItem({ commit, state }, item) {
+  addItem({ commit, state, dispatch }, item) {
     //Consultamos que no exista el item en el carrito (no duplicar)
     const itemIndex = state.cartItems.findIndex(cartItem => cartItem.id == item.id);
     if(itemIndex == -1){
       commit('PUSH_ITEM', item);
-        //Aqui podriamos agregar una notificacion 'Success'
-        /*const notification = {
-          type: 'success',
-          message: 'Se agrego un curso al carrito',
-        }
-        dispatch('notification/add', notification, { root: true });*/
-    }else{
-      //Aqui podriamos agregar una notificacion 'Error'
+      const alert = {
+        show: true,
+        variant: 'success',
+        message: "Agregaste un item al carrito"
+      }
+      dispatch('addAlert', alert, {root: true});
     }
   },
-  deleteItem({ commit }, itemId) {
+  deleteItem({ commit, dispatch }, itemId) {
     commit('DELETE_ITEM', itemId);
-    //Notificacion
+    const alert = {
+      show: true,
+      variant: 'success',
+      message: "Eliminaste un item del carrito"
+    }
+    dispatch('addAlert', alert, {root: true});
   },
 }
 export const getters = { 

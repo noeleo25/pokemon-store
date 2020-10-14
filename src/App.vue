@@ -10,7 +10,10 @@
 <script>
 import MainNav from '@/components/layout/MainNav.vue'
 export default {
-  components: { MainNav }
+  components: { MainNav },
+  created() {
+    this.$store.dispatch('getProductList');
+  },
 }
 </script>
 <style>

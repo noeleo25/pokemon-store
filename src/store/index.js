@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import axios from 'axios';
 //Opc 1 import
   //import ShoppingCart from '@/services/ShoppingCart.js'
 //Opc 2 import
@@ -20,7 +21,7 @@ export default new Vuex.Store({
   },
   plugins: [persistent],
   state: {
-    productList:[
+    /*productList:[
       {
         id: 1,
         name: 'Charizard',
@@ -117,14 +118,34 @@ export default new Vuex.Store({
         },
         rate: 3
       }
-    ],
+    ],*/
     isLoading: false,
+    productList: [],
+    alert: null,
   },
   mutations: {
-    
+    SET_ALERT(state, alert){
+      state.alert = alert;
+    },
+    UNSET_ALERT(state){
+      state.alert = null;
+    },
+    SET_ITEMS(state, items){
+      state.productList = items;
+    }
   },
   actions: {
-    
+    addAlert({commit}, alert){
+      commit('SET_ALERT', alert);
+    },
+    removeAlert({commit}){
+      commit('UNSET_ALERT');
+    },
+    async getProductList({commit}){
+      const res = await axios.get('http://localhost:3000/items');
+      if(res.status == 200)
+        commit('SET_ITEMS', res.data);
+    }
   },
   getters: {
     bestItems: (state)  => {
