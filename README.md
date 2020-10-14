@@ -1,4 +1,4 @@
-# Vuex sample project - Pokemon Shopping Cart
+# Vuex sample project - Pokemon Shopping Cart :moneybag: :money_with_wings:
 *Developed with Vue.js and Bootstrap Vue*
 
 Demo: *pending
@@ -28,13 +28,30 @@ npm run serve
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-## Json Server for fake REST API
+## Json Server for fake REST API - For Windows O.S
 In case you want to test API request with axios, follow next steps:
+1. Install json server
+```
+npm install -g json-server
+```
+2.. Create a .json file and put inside the items you want to return. I.E:
+```
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Charizard",
+      "type": "Fire", 
+      "color": "red",
+      "rate": 4
+    }, ... ]
+}
+```
+3. Run server:
+```
+json-server --watch file-name.json
+```
+4. The endpoint to use in your axios call will be show in console when you run server.
 
 
 
